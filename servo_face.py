@@ -14,7 +14,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
-#import RPi.GPIO as GPIO # 라즈베리파이 GPIO 핀을 쓰기위해 임포트
+import RPi.GPIO as GPIO # 라즈베리파이 GPIO 핀을 쓰기위해 임포트
 import time # 시간 간격으로 제어하기 위해 임포트
 
 cred = credentials.Certificate('pill-dispenser-d4bec-firebase-adminsdk-116fy-ae1afad8ff.json')
@@ -241,11 +241,11 @@ def main():
   #  print('day',pi_day)
  #   print('time',pi_time)
 
-    # GPIO.setmode(GPIO.BCM)
-    # SERVO = 13
-    # GPIO.setup(SERVO, GPIO.OUT)
-    # SERVO_PWM = GPIO.PWM(SERVO, 50)
-    # SERVO_PWM.start(0)
+         GPIO.setmode(GPIO.BCM)
+         SERVO = 13
+         GPIO.setup(SERVO, GPIO.OUT)
+         SERVO_PWM = GPIO.PWM(SERVO, 50)
+         SERVO_PWM.start(0)
 
    # alarm_S = "08:00:00"
         #while (True):
@@ -256,20 +256,15 @@ def main():
         #ddmmss = "19:30:00"
 
         if ddmmss == pi_time:
-            print("success")
-            break
+            while (i < 2):
 
-            # while (i < 2):
-
-
-            # SERVO_PWM.ChangeDutyCycle(10)
-            # time.sleep(1)
-            # SERVO_PWM.ChangeDutyCycle(5)
-            # time.sleep(1)
-            # i = i + 1
-            #
-            # SERVO_PWM.stop()
-            # GPIO.cleanup()
+            SERVO_PWM.ChangeDutyCycle(10)
+            time.sleep(1)
+            SERVO_PWM.ChangeDutyCycle(5)
+            time.sleep(1)
+            i = i + 1
+            SERVO_PWM.stop()
+            GPIO.cleanup()
 
 if __name__ == '__main__':
     main()
