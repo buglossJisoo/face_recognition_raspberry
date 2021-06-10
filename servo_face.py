@@ -26,7 +26,7 @@ def facial_recog():
     # Initialize 'currentname' to trigger only when a new person is identified.
     currentname = "unknown"
     # Determine faces from encodings.pickle file model created from train_model.py
-    encodingsP = "encodings_cnn.pickle"
+    encodingsP = "encodings.pickle"
     # use this xml file
     cascade = "haarcascade_frontalface_default.xml"
 
@@ -241,6 +241,31 @@ def main():
   #  print('day',pi_day)
  #   print('time',pi_time)
 
+        GPIO.setmode(GPIO.BCM)
+        SERVO = 13
+        GPIO.setup(SERVO, GPIO.OUT)
+        SERVO_PWM = GPIO.PWM(SERVO, 50)
+        SERVO_PWM.start(0)
+
+   # alarm_S = "08:00:00"
+        #while (True):
+        i = 1
+        cur_time = time.ctime()
+            # 요일, 월, 일, 시간, 년도 받아온다.
+        ddmmss = cur_time.split(' ')[-2]
+        #ddmmss = "19:30:00"
+
+      #  if ddmmss == pi_time:
+        while (i < 2):
+
+            SERVO_PWM.ChangeDutyCycle(10)
+            time.sleep(1)
+            SERVO_PWM.ChangeDutyCycle(5)
+            time.sleep(1)
+            i = i + 1
+            SERVO_PWM.stop()
+            GPIO.cleanup()
+            
          GPIO.setmode(GPIO.BCM)
          SERVO = 13
          GPIO.setup(SERVO, GPIO.OUT)
@@ -265,6 +290,9 @@ def main():
             i = i + 1
             SERVO_PWM.stop()
             GPIO.cleanup()
+            
+            
+
 
 if __name__ == '__main__':
     main()

@@ -10,6 +10,7 @@ import pickle
 import time
 import cv2
 
+
 #import RPi.GPIO as GPIO # 라즈베리파이 GPIO 핀을 쓰기위해 임포트
 from time import sleep # 시간 간격으로 제어하기 위해 임포트
 from firebase import firebase
@@ -130,53 +131,23 @@ while True:
                 print(third[0])
                 real_pill_name = third[0]
                 
-                str2 =", "
-                #seo omega, kal
-                if(real_pill_name.find(str2)!= -1):
-                    sep_pill = real_pill_name
-                    sep_pill = sep_pill.split(', ')
-                    print('a',sep_pill[0])
-                    print('b',sep_pill[1])
-                   
-    
+                
+                ref = db.reference('pill/'+currentname+'/'+real_pill_name)
+                ref.update({"motor" : "1"})                
+                if(real_pill_name == "오메가3"):
+                    p1.start(2)
+                    p1.ChangeDutyCycle(2)
+                    sleep(1)
+                    p1.ChangeDutyCycle(7)
+                    sleep(1)
+                elif(real_pill_name == "고혈압약"):
+                    p2.start(2)
+                    p2.ChangeDutyCycle(2)
+                    sleep(1)
+                    p2.ChangeDutyCycle(7)
+                    sleep(1)
                 
                 
-                
-                try:
-                    if(real_pill_name == "오메가3"):
-                        ref = db.reference('pill/'+currentname+'/'+real_pill_name)
-                        ref.update({"motor" : "1"})
-                        p1.start(2)
-                        p1.ChangeDutyCycle(2)
-                        sleep(1)
-                        p1.ChangeDutyCycle(8)
-                        sleep(1)
-                        
-                        
-                    elif(real_pill_name == "칼슘"):
-                        ref = db.reference('pill/'+currentname+'/'+real_pill_name)
-                        ref.update({"motor" : "1"})
-                        p2.start(8)
-                        p2.ChangeDutyCycle(8)
-                        sleep(1)
-                        p2.ChangeDutyCycle(2)
-                        sleep(1)
-                    elif(sep_pill[0]=="오메가3" and sep_pill[1] == "칼슘"):
-                        ref = db.reference('pill/'+currentname+'/'+sep_pill[0])
-                        ref.update({"motor" : "1"})
-                        ref2 = db.reference('pill/'+currentname+'/'+sep_pill[1])
-                        ref2.update({"motor" : "1"})
-                        
-                        p1.start(2)
-                        p2.start(8)
-                        p1.ChangeDutyCycle(2)
-                        p2.ChangeDutyCycle(8)
-                        sleep(1)
-                        p1.ChangeDutyCycle(8)
-                        p2.ChangeDutyCycle(2)
-                        sleep(1)
-                finally:
-                    GPIO.cleanup()
         
         
         # update the list of names
@@ -219,6 +190,5 @@ print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
-
 
 
